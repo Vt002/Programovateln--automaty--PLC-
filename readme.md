@@ -3,7 +3,7 @@
 
 # Programovatelné automaty (PLC)
 
-$${\color{#FFA500}E10 \space \color{Gold}S21 }$$
+$${\color{#FFA500}E10 \space \color{Gold}S21 \color{#4682B4}A5}$$
 
 ## Cíl
 -   Studenti se budou orientovat v běžných PLC a rozliší je podle primárního využití.
