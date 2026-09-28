@@ -92,9 +92,12 @@ Prostudujte vnitřní blokové uspořádání programovatelného automatu na ní
        - Jakým způsobem je zálohována při výpadku napájení v modulech Tecomat Foxtrot (akumulátor / superkondenzátor / paměť FRAM): `...`
        - Uveďte typický příklad proměnné, která musí být uložena v remanentní paměti: `...`
 
-1. **Cyklický princip činnosti PLC a procesní obraz:**
+2. **Cyklický princip činnosti PLC a procesní obraz:**
+	
 	<img src="attachments/Pasted%20image%2020260928084647.png" width="313" alt="">
+	
 	Obr. převzatý z: TECO A.S. *PROGRAMOVATELNÉ AUTOMATY TECOMAT FOXTROT 2*. Kolín: Teco a.s., 2026. Dostupné také z: https://wiki.tecomat.cz/
+	
    - Popište 3 základní fáze jednoho pracovního cyklu PLC (**Scan Cycle**):
      - *Fáze 1 (Čtení vstupů):* `...` *(načtení stavu svorek do Procesního obrazu vstupů – PII)*
      - *Fáze 2 (Vykonání programu):* `...` *(výpočet logických a matematických operací)*
