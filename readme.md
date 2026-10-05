@@ -231,3 +231,217 @@ Jaký je princip zapojení odporového snímače teploty (např. Pt1000) a proč
 
 ---
 
+### 4. Provozní diagnostika PLC, měření multimetrem a troubleshooting v IDE Mosaic
+
+*Časová dotace: 25–30 minut | :bangbang: Klasifikovaná inženýrská úloha na známky*
+
+Jste v roli servisního inženýra na lince řízené automatem **Tecomat Foxtrot**. Linka nečekaně zastavila cyklus. Na operátorském panelu svítí alarm „PORUCHA ČERPÁNÍ – TLAKOVÁ ZTRÁTA“, na centrální jednotce PLC bliká červená LED kontrolka `ERR` a čerpadlo nereaguje na povely.
+
+#### Příklad vzorového diagnostického protokolu (dobrá servisní praxe):
+> *Vzorový postup při nefunkčním digitálním snímači:*
+> 1. *Kontrola stavové LED na svorce modulu:* Vizuální pohled na LED vstupu DI2 – LED nesvítí, přestože je válec v poloze sepnutí.
+> 2. *Měření digitálním multimetrem:*
+>    - Nastaven rozsah měření DC napětí (200 V DC).
+>    - Černý hrot COM připojen na nulový potenciál (svorka GND / 0 V), červený hrot na svorku napájení snímače (+24 V DC) -> naměřeno 24,2 V DC (napájení senzoru je v pořádku).
+>    - Červený hrot přemístěn na signálovou svorku vstupu DI2 -> naměřeno 0,3 V DC (logická 0).
+> 3. *Závěr měření:* Vadný spínací tranzistor v indukčním senzoru nebo přerušený signálový kabel v energetickém řetězu linky.
+
+#### Váš úkol:
+
+1. **Diagnostika podle stavových kontrolek (LED) a displeje centrální jednotky Teco:**
+   - Doplňte do tabulky význam signalizace na čelním panelu centrální jednotky Foxtrot (CP-2000 / CP-2091):
+
+| Signalizační prvek na PLC | Stav (barva / svit)     | Provozní význam (co stav znamená pro servisního technika)   |
+| :------------------------ | :---------------------- | :---------------------------------------------------------- |
+| **RUN**                   | Zelená, trvale svítí    | Uživatelský program v PLC běží v normálním cyklickém režimu |
+| **HALT / STOP**           | Žlutá / oranžová, svítí | `...`                                                       |
+| **ERR / FAULT**           | Červená, bliká          | `...`                                                       |
+| **ERR / FAULT**           | Červená, trvale svítí   | `...`                                                       |
+| **ETH (Link/Act)**        | Zelená/žlutá, bliká     | `...`                                                       |
+
+2. **Troubleshooting v elektrickém zapojení pomocí digitálního multimetru:**
+   - Upevněte na DIN lištu PLC a podle parametrů (viz technický list) vyberte vhodný zdroj napájení.
+   - Zapojte napájení PLC (než zapojíte 230 V AC zapojení proměřte).
+   - Popište přesný a bezpečný metodický postup (kam připojíte měřicí hroty, jaký rozsah a veličinu na multimetru nastavíte; alespoň některé varianty bezpečně nasimulovat na PLC a zdroji, nejspíš budete potřebovat navázat komunikaci s programovacím prostředím, založit program a HW konfiguraci, abyste mohli ovládat výstupy a číst vstupy):
+     - **A. Detekce tvrdého zkratu mezi svorkami +24 V DC a 0 V (GND) před zapnutím jističe:**
+       - *Postup:* `...` *(pozor: zařízení musí být zcela bez napětí, měření impedance/kontinuity)*
+     - **B. Ověření spečených kontaktů výstupního relé DO při vypnutém napájení řízení:**
+       - *Postup:* `...`
+     - **C. Diagnostika napájecího zdroje a napájení PLC (ověření správného napětí 24 V DC):**
+	   - *Postup:* `...` *(zařízení pod napětím, měření stejnosměrného napětí – hroty na svorkách zdroje / PLC napájení +24 V a 0 V, vhodný rozsah DC napětí, kontrola ripple/stability)*
+	- **D. Diagnostika vstupů a výstupů PLC (ověření napětí / kontinuity na DI/DO):**
+       - *Postup:* `...` *(podle typu – měření napětí na aktivovaném vstupu/výstupu nebo kontinuity/impedance při vypnutém napájení, hroty na příslušných svorkách I/O a referenční GND)*
+    - **E. Měření napětí 230 V AC pomocí DC rozsahu (!!! Tento úkol provádějte pouze s vyučujícím !!!):**
+	   - *Postup:* `...` *(zařízení pod napětím, multimetr nastaven na rozsah **1000 V DC**, hroty bezpečně připojeny na fázový a nulový vodič / L–N. Multimetr měří střední hodnotu, proto ukáže přibližně **0 V**.)*
+	   - *Jaké riziko z toho vyplývá při následné práci na zařízení:* `...`
+
+3. **Diagnostika v programovacím prostředí Teco Mosaic:**
+   - K jakému diagnostickému účelu slouží níže uvedené nástroje prostředí Mosaic a jaká jsou jejich bezpečnostní rizika:
+     - **Nástroj Watch / Sledování proměnných (Inspektor):**
+       - *Účel:* `...`
+     - **Funkce Force (Vnucení hodnoty vstupu / výstupu):**
+       - *Co přesně funkce provede:* `...`
+       - :warning: **Provozní a bezpečnostní riziko funkce Force:** Proč je použití funkce Force během ostrého provozu s přítomností lidské obsluhy zakázáno? `...`
+     - **Systémový diagnostický log (Chybový protokol PLC v Mosaicu):**
+       - *Jaké informace v něm technik vyčte:* `...` *(např. restart CPU, výpadek sběrnice TCL2, chyba dělení nulou)*
+
+> **Kritéria hodnocení úlohy 4 (bodování na známky):**
+> - :bangbang: **Odborná správnost interpretace stavů a hlášení PLC (30 %):** Bezchybné vysvětlení indikace LED (RUN, HALT, ERR) a práce s diagnostickým hlášením v prostředí Mosaic.
+> - :bangbang: **Metodika a bezpečnost měření multimetrem (35 %):** Správná volba měřicí funkce (napětí DC vs. odpor/kontinuita vs. proud v sérii), uvědomění si nutnosti odpojení napájení při měření odporu kontaktů relé.
+> - :bangbang: **Bezpečnostní úroveň práce v prostředí Mosaic (35 %):** Správné vysvětlení funkce Force, jejího rozdílu oproti pouhému zápisu proměnné a kritické zhodnocení rizik nekontrolovaného sepnutí pohonů.
+
+> :key: **Vysvětlení pojmů a odborné zdroje:**
+> - **Prostředí Mosaic:** Integrované vývojové prostředí (**IDE**) pro programování, konfiguraci, simulaci a online diagnostiku řídicích systémů Tecomat.
+> - **Vnucení proměnné (Force):** Diagnostický režim, kdy je hodnota proměnné v procesním obrazu PLC natvrdo uzamčena na zvolenou úroveň (log. 0 nebo 1) bez ohledu na reálný stav fyzické svorky či algoritmus programu.
+> - **Spečení kontaktů relé (Contact Welding):** Poruchový stav elektromechanického relé způsobený elektrickým obloukem při vypínání indukční zátěže nebo proudovým nárazem, kdy dojde k natavení a trvalému mechanickému spojení spínacích kontaktů.
+>
+> *Bibliografické citace dle normy ČSN ISO 690:*
+> - TECO A.S. *Vývojové prostředí Mosaic: Uživatelská příručka a diagnostika* [online]. Kolín: Teco a.s., 2024 [cit. 2026-09-20]. Dostupné z: https://wiki.tecomat.cz/
+
+<details>
+<summary> :bulb: Tip pro měření proudové smyčky 4–20 mA: </summary>
+<p>Pamatujte, že proud se měří <strong>v sérii</strong> s obvodem (musíte rozpojit svorku a multimetr zapojit jako ampérmetr do cesty proudu), zatímco napětí se měří <strong>paralelně</strong>. Pokud má PLC interní bočník (např. 250 Ω nebo 500 Ω), lze proud měřit nepřímo jako úbytek napětí na tomto odporu bez nutnosti rozpojovat vodiče (dle Ohmova zákona).</p>
+</details>
+
+:star2: **Bonusová otázka k úloze 4:**
+Co se stane v řídicím systému Tecomat Foxtrot, pokud na sběrnici TCL2 omylem nastavíte dvěma různým periferním modulům stejnou hardwarovou adresu (např. otočným přepínačem adresy), a jak tuto kolizi indikuje centrální jednotka v diagnostice?
+
+*Vaše odpověď:*
+`...`
+
+---
+
+### 5. Simulace řídicího programu v prostředí Teco Mosaic: od teorie k praxi
+
+*Časová dotace: 25–30 minut | :bangbang: Klasifikovaná inženýrská úloha na známky*
+
+Prostředí **Teco Mosaic** umožňuje úplnou softwarovou simulaci cyklického běhu PLC bez fyzického hardware. Simulátor zprostředkovává procesní obraz vstupů a výstupů, odpočítávání časovačů i sledování proměnných v reálném čase – stejně jako skutečný automat. Tato úloha vás provede celým pracovním tokem: od založení projektu přes napsání řídicího algoritmu až po jeho ověření v simulátoru.
+
+#### Technologický scénář – čerpací stanice odpadních vod:
+
+Naprogramujte a simulujte v prostředí Teco Mosaic řízení jednoduché **čerpací stanice** s následující logikou:
+
+| Signál | Typ | Popis |
+| :--- | :--- | :--- |
+| `di_HladinaDolni` | DI (NC, log. 1 = hladina nad min.) | Plovákový spínač spodní hladiny – chrání čerpadlo před chodem nasucho |
+| `di_HladinaPump` | DI (NO, log. 1 = hladina dosáhla zapínací úrovně) | Plovákový spínač zapínací hladiny |
+| `di_HladinaHavar` | DI (NO, log. 1 = přepad) | Plovákový spínač havarijního přepadu |
+| `di_Porucha` | DI (NC, log. 1 = bez poruchy) | Termistorové ochranné relé motoru |
+| `do_Cerpadlo` | DO | Výstup stykače hlavního čerpadla |
+| `do_Alarm` | DO | Výstup siréna/maják – havarijní stav |
+
+**Požadovaná logika:**
+- Čerpadlo se **automaticky spustí**, jakmile hladina dosáhne zapínací úrovně (`di_HladinaPump = TRUE`) **a zároveň** je hladina nad minimem (`di_HladinaDolni = TRUE`, NC kontakt) **a zároveň** není žádná porucha motoru (`di_Porucha = TRUE`, NC kontakt).
+- Čerpadlo **automaticky zastaví**, jakmile hladina klesne pod zapínací úroveň (`di_HladinaPump = FALSE`). Implementujte **časové zpoždění vypnutí 10 s** (časovač `TOF`), aby se zabránilo krátkodobým cyklickým startům (tzv. taktování čerpadla).
+- Při havarijním přepadu (`di_HladinaHavar = TRUE`) se **okamžitě spustí alarm** `do_Alarm` a stav se zapíše do remanentní proměnné `b_HavarieDetekce : BOOL RETAIN`. Alarm zůstane aktivní až do ručního resetu operátorem (`btn_Reset`).
+- Při výpadku ochrany motoru (`di_Porucha = FALSE`) se čerpadlo okamžitě zastaví a aktivuje se alarm.
+
+#### Váš úkol:
+
+1. **Postup při zakládání projektu a HW konfigurace v Mosaicu (doplňte kroky):**
+
+   Popište, co musíte nastavit v prostředí Teco Mosaic, abyste mohli spustit simulaci, aniž byste měli připojený fyzický PLC:
+
+   | Krok | Co v Mosaicu nastavit / zkontrolovat | Proč je tento krok nutný |
+   | :--- | :--- | :--- |
+   | **1. Volba cílové platformy** | V HW konfiguraci zvolit centrální jednotku, např. `...` *(např. CP-2007)* | Simulátor musí znát počet a typy I/O svorek |
+   | **2. Aktivace simulátoru** | V menu `...` přepnout komunikaci z „Ethernet / přímé spojení" na `...` | Bez aktivace simulátoru by Mosaic hledal fyzické PLC na síti |
+   | **3. Přiřazení proměnných k I/O svorkám** | V záložce `...` přiřadit proměnnou `di_HladinaDolni` na svorku `...` | Propojuje proměnnou v programu s fyzickým (nebo simulovaným) vstupem |
+   | **4. Spuštění simulace** | Kliknout na tlačítko `...` nebo stisknout klávesovou zkratku `...` | Spustí cyklický běh programu v simulátoru (náhrada za fyzické PLC) |
+   | **5. Sledování proměnných** | Otevřít okno `...` a přidat proměnné `do_Cerpadlo`, `stav`, `timer_TOF` | Umožní sledovat aktuální hodnoty proměnných v každém cyklu |
+
+2. **Implementace řídicího algoritmu v jazyce ST:**
+
+   Napište program pro výše popsanou logiku čerpací stanice. Použijte strukturu s remanentní proměnnou a časovačem `TOF`. Vzorová kostra programu:
+
+```pascal
+PROGRAM Prg_CerpStation
+VAR
+    di_HladinaDolni  : BOOL; // NC plovák – spodní hladina (log.1 = OK)
+    di_HladinaPump   : BOOL; // NO plovák – zapínací hladina
+    di_HladinaHavar  : BOOL; // NO plovák – havarijní přepad
+    di_Porucha       : BOOL; // NC termistor (log.1 = bez poruchy)
+    btn_Reset        : BOOL; // Ruční reset alarmu operátorem
+    do_Cerpadlo      : BOOL; // Výstup stykače čerpadla
+    do_Alarm         : BOOL; // Výstup majáku / sirény
+
+    b_HavarieDetekce : BOOL; // RETAIN – příznak havárie přepadu (přežije výpadek)
+    timer_TOF        : TOF;  // Zpoždění vypnutí čerpadla (10 s)
+END_VAR
+
+// === Doplňte implementaci logiky níže ===
+
+// 1. Reset havarijního příznaku operátorem:
+...
+
+// 2. Detekce havarijního přepadu nebo poruchy motoru:
+...
+
+// 3. Podmínka pro spuštění čerpadla (všechny podmínky splněny):
+...
+
+// 4. Řízení výstupu čerpadla přes časovač TOF (zpoždění vypnutí 10 s):
+timer_TOF(IN := ..., PT := T#10s);
+do_Cerpadlo := timer_TOF.Q AND ...;
+
+// 5. Aktivace alarmu:
+do_Alarm := ...;
+
+END_PROGRAM
+```
+
+   - *Váš doplněný kód v ST:*
+```pascal
+// Vložte váš kompletní program:
+...
+```
+
+3. **Ověření chování programu v simulátoru Mosaic (protokol o simulaci):**
+
+   Po spuštění simulace v Mosaicu ověřte chování programu. Popište nebo doplňte očekávané hodnoty proměnných v okně **Watch** pro každý testovací scénář:
+
+   | Testovací scénář | Vstupní podmínky (hodnoty v simulátoru) | Očekávaný stav výstupů | Skutečně naměřeno v simulátoru |
+   | :--- | :--- | :--- | :--- |
+   | **Normální jímání – hladina roste** | `di_HladinaDolni=1`, `di_HladinaPump=0`, `di_Porucha=1`, `di_HladinaHavar=0` | `do_Cerpadlo=0`, `do_Alarm=0` | `...` |
+   | **Spuštění čerpadla** | `di_HladinaDolni=1`, `di_HladinaPump=1`, `di_Porucha=1`, `di_HladinaHavar=0` | `do_Cerpadlo=1`, `do_Alarm=0` | `...` |
+   | **Vyprázdnění – čekání TOF** | `di_HladinaDolni=1`, `di_HladinaPump=0 (právě klesl)`, vše ostatní OK | `do_Cerpadlo=1` *(ještě běží 10 s TOF)*, `timer_TOF.ET` roste | `...` |
+   | **Havarijní přepad** | `di_HladinaDolni=1`, `di_HladinaPump=1`, `di_HladinaHavar=1`, `di_Porucha=1` | `do_Alarm=1`, `b_HavarieDetekce=1` | `...` |
+   | **Porucha motoru (termistorové relé)** | `di_HladinaPump=1`, **`di_Porucha=0`** | `do_Cerpadlo=0`, `do_Alarm=1` | `...` |
+   | **Reset alarmu** | Po stisku `btn_Reset`, porucha i přepad odstraněny | `do_Alarm=0`, `b_HavarieDetekce=0` | `...` |
+
+4. **Propojení teorie s výsledky simulace:**
+   - Proč proměnná `b_HavarieDetekce` musí být deklarována jako `RETAIN`? Co by se stalo při výpadku napájení PLC, kdyby nebyla uložena v remanentní paměti?
+     - *Vaše odpověď:* `...`
+   - Sledujte v okně Watch hodnotu `timer_TOF.ET` (elapsed time) během odpočtu 10 sekund. K čemu slouží tato hodnota z pohledu diagnostiky v praxi?
+     - *Vaše odpověď:* `...`
+   - Jakým způsobem byste pomocí funkce **Force** v Mosaicu nasimulovali výpadek ochrany motoru (`di_Porucha = FALSE`) bez fyzického přepojení svorky? Popište postup a uveďte bezpečnostní riziko:
+     - *Postup Force:* `...`
+     - *Bezpečnostní riziko při použití Force v ostrém provozu:* `...`
+
+> **Kritéria hodnocení úlohy 5 (bodování na známky):**
+> - :bangbang: **Správný postup práce v simulátoru Mosaic (25 %):** Správně popsané kroky pro aktivaci simulátoru, přiřazení I/O a spuštění online monitoringu (Watch).
+> - :bangbang: **Správnost implementace algoritmu v jazyce ST (45 %):** Správná logika podmínek, správné použití časovače `TOF` (vstup `IN`, výstup `Q`, parametr `PT`), deklarace `RETAIN` proměnné, ošetření všech poruchových stavů.
+> - :bangbang: **Protokol o simulaci – propojení teorie a praxe (30 %):** Správně vyplněné výsledky sledování ve Watch okně, věcné zdůvodnění role RETAIN paměti a bezpečnostního rizika funkce Force.
+
+> :key: **Vysvětlení pojmů a odborné zdroje:**
+> - **Simulátor Teco Mosaic:** Integrovaný software Mosaicu, který plně emuluje cyklický běh procesorové jednotky Foxtrot včetně odpočtu časovačů, práce s procesním obrazem a remanentní pamětí – bez nutnosti připojení fyzického PLC. Student tak může odladit celý program ještě před nasazením na skutečné zařízení.
+> - **TOF (Timer Off-Delay / Časovač se zpožděním vypnutí):** Standardní funkční blok dle IEC 61131-3. Výstup `Q` je aktivní po celou dobu aktivního vstupu `IN`. Po deaktivaci `IN` zůstane `Q` aktivní ještě po dobu nastavenou v `PT`. Použití: zabránění krátkodobým cyklickým startům motorů (ochrana před taktováním čerpadla).
+> - **RETAIN (Remanentní proměnná):** Proměnná uložená v části paměti PLC (FRAM, zálohovaná RAM nebo superkondenzátorem), jejíž hodnota přežije výpadek napájení a je dostupná ihned po opětovném startu automatu. Typické použití: počítadla kusů, příznaky havárie, nastaveníparametrů procesu.
+> - **Watch / Inspektor v Mosaicu:** Okno online monitoringu proměnných. Zobrazuje aktuální hodnotu libovolné proměnné programu v každém skenu PLC. Neovlivňuje chod programu – slouží pouze ke čtení.
+> - **Force (Vnucení hodnoty):** Diagnostický nástroj, který natvrdo uzamkne hodnotu proměnné v procesním obrazu na zvolenou hodnotu, nezávisle na fyzickém stavu svorky ani na algoritmu programu. V simulátoru bezpečně nahrazuje fyzické přepojení vstupní svorky.
+>
+> *Bibliografické citace:*
+> - ČESKÝ NORMALIZAČNÍ INSTITUT. *ČSN EN 61131-3 ed. 3 (18 0080) Programovatelné řídicí jednotky - Část 3: Programovací jazyky*. Praha: Úřad pro technickou normalizaci, metrologii a státní zkušebnictví, 2014. Třídící znak 180080.
+
+<details>
+<summary> :bulb: Tip k aktivaci simulátoru v Mosaicu: </summary>
+<p>V menu <strong>Projekt → Manažer projektu</strong> (nebo v liště nástrojů) přepněte komunikační mód z „Ethernet" na <strong>„Simulovaný PLC"</strong>. Poté klikněte na <strong>Přeložit a Run</strong>. Mosaic spustí virtuální PLC přímo na vašem počítači. V dolním panelu otevřete <strong>okno Data</strong> (menu Zobrazit → Data nebo Ctrl+Alt+W) a přidejte proměnné, které chcete sledovat.</p>
+</details>
+
+:star2: **Bonusová otázka k úloze 5:**
+Proč se u fyzického tlačítka nouzového zastavení (E-Stop) v zapojení do vstupu PLC striktně vyžaduje rozpínací kontakt (NC), a jak se tato hardwarová skutečnost projeví v zápisu podmínky v jazyce ST (`IF NOT btn_Stop` vs. `IF btn_Stop`)? Co by se stalo při přetržení kabelu, kdyby bylo použito spínací tlačítko (NO)?
+
+*Vaše odpověď:*
+`...`
+
+---
