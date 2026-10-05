@@ -445,3 +445,51 @@ Proč se u fyzického tlačítka nouzového zastavení (E-Stop) v zapojení do v
 `...`
 
 ---
+
+### 6. Rozšiřující inženýrská výzva: TCO, životní cyklus PLC Teco a funkční bezpečnost (Safety)
+
+*Časová dotace: 15–20 minut | :star2: Rozšiřující bonusová výzva pro pokročilé studenty*
+
+V průmyslové praxi tvoří samotná nákupní cena PLC (pořizovací investice – CAPEX) často jen zlomek celkových nákladů na vlastnictví systému (**TCO – Total Cost of Ownership**) po dobu jeho 15–25letého životního cyklu.
+
+Představte si, že management výrobní firmy zvažuje dvě alternativy řízení pro modernizaci 20 strojů:
+- **Varianta 1 (Nízkonákladová amatérská deska):** Využití levných desek s mikrokontroléry (např. ESP32 / Arduino s vlastním plošným spojem bez certifikace), nákupní cena HW 1 500 Kč / kus, firmware psaný externím studentem v jazyce C++ bez dokumentace.
+- **Varianta 2 (České průmyslové PLC Tecomat Foxtrot 2):** Nákupní cena certifikované sestavy PLC cca 18 000 Kč / kus, kompletní vývoj v normovaném prostředí Mosaic dle IEC 61131-3, technická podpora výrobce Teco a.s. v ČR.
+
+#### Váš úkol:
+
+1. **Kalkulace a multikriteriální srovnání TCO v horizontu 15 let:**
+   - Doplňte do tabulky analýzu rizik a provozních nákladů (OPEX):
+
+| Kritérium hodnocení                                       | Varianta 1 (Custom deska s MCU)                                  | Varianta 2 (Průmyslové PLC Tecomat Foxtrot 2)                    |
+| :-------------------------------------------------------- | :--------------------------------------------------------------- | :--------------------------------------------------------------- |
+| **Dlouhodobá dostupnost náhradních dílů po 10–15 letech** | `...` *(riziko ukončení výroby čipu, nutnost nového návrhu PCB)* | Dlouholetá garance zpětné kompatibility firmy Teco (desítky let) |
+| **Servisovatelnost podnikovým elektroudržbářem**          | `...`                                                            | Běžná diagnostika přes webserver a IDE Mosaic dle normy IEC      |
+| **Doba odstávky linky při poruše řídicí jednotky**        | `...`                                                            | Výměna kusu na DIN lištu + nahrání programu ze záložní SD karty  |
+| **Certifikace a elektromagnetická kompatibilita (EMC)**   | `...` *(hrozí rušení od stykačů, riziko neprojití revizí)*       | Plná certifikace CE dle průmyslových norem                       |
+| **Závěrečné inženýrské doporučení pro vedení podniku**    | `...`                                                            | `...`                                                            |
+
+2. **Aspekty funkční bezpečnosti (Functional Safety dle ČSN EN ISO 13849-1):**
+   - Smí být obvod nouzového zastavení (E-Stop) lisu zapojen pouze do standardního softwarového vstupu běžného PLC bez použití certifikovaného bezpečnostního relé nebo bezpečnostního PLC (Safety PLC)? 
+     - *Odpověď (Ano / Ne) a technické zdůvodnění:* `...`
+   - Jakým způsobem musí být nouzový okruh správně hardwarově vyřešen, aby splňoval požadavky na bezpečné odpojení silových pohonů?
+     - *Vysvětlení:* `...`
+
+> :key: **Vysvětlení pojmů a odborné zdroje:**
+> - **TCO (Total Cost of Ownership):** Celkové náklady na vlastnictví zařízení po celou dobu jeho životního cyklu, zahrnující pořizovací náklady (CAPEX), náklady na instalaci, vývoj, školení personálu, údržbu, náhradní díly a ztráty způsobené odstávkami výroby (OPEX).
+> - **Funkční bezpečnost:** Schopnost bezpečnostního řídicího systému udržet stroj v bezpečném stavu nebo jej do bezpečného stavu uvést i v případě výskytu jedné či více poruch.
+>
+> *Bibliografické citace dle normy ČSN ISO 690:*
+> - ČESKÝ NORMALIZAČNÍ INSTITUT. *ČSN EN ISO 13849-1 ed. 2 (83 3205) Bezpečnost strojních zařízení - Bezpečnostní části ovládacích systémů - Část 1: Všeobecné zásady pro konstrukci*. Praha: Česká agentura pro standardizaci, 2024. Třídící znak 833205.
+> - Total cost of ownership. In: *Wikipedia: the free encyclopedia* [online]. St. Petersburg (Florida): Wikimedia Foundation, 2024, 14. 8. 2024 [cit. 2026-09-20]. Dostupné z: https://en.wikipedia.org/wiki/Total_cost_of_ownership
+
+<details>
+<summary> :bulb: Tip k úvaze o bezpečnosti: </summary>
+<p>Základní postulát průmyslové automatizace: <strong>Standardní software ani procesor běžného PLC nesmí být nikdy jediným prvkem zajišťujícím ochranu lidského života před nebezpečným pohybem stroje.</strong> Vždy musí být nasazen certifikovaný bezpečnostní hardware (bezpečnostní relé, optické závory se zdvojenými kontakty,...).</p>
+</details>
+
+:star2: **Bonusová otázka k úloze 6:**
+Co znamená pojem **MTBF (Mean Time Between Failures – střední doba mezi poruchami)** u průmyslových PLC modulů a jaký má vliv provozní teplota v rozváděči (např. nárůst z 25 °C na 55 °C) na životnost elektrolytických kondenzátorů ve spínaných zdrojích PLC podle tzv. Arrheniova pravidla?
+
+*Vaše odpověď:*
+`...`
